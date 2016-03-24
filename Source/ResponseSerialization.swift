@@ -160,6 +160,8 @@ extension Request {
             if let response = response where response.statusCode == 204 { return .Success(NSData()) }
 
             guard let validData = data else {
+                if let response = response where response.statusCode >= 200 && response.statusCode < 300 { return .Success(NSData()) }
+                
                 let failureReason = "Data could not be serialized. Input data was nil."
                 let error = Error.errorWithCode(.DataSerializationFailed, failureReason: failureReason)
                 return .Failure(error)
@@ -208,6 +210,8 @@ extension Request {
             if let response = response where response.statusCode == 204 { return .Success("") }
 
             guard let validData = data else {
+                if let response = response where response.statusCode >= 200 && response.statusCode < 300 { return .Success("") }
+                
                 let failureReason = "String could not be serialized. Input data was nil."
                 let error = Error.errorWithCode(.StringSerializationFailed, failureReason: failureReason)
                 return .Failure(error)
@@ -279,6 +283,8 @@ extension Request {
             if let response = response where response.statusCode == 204 { return .Success(NSNull()) }
 
             guard let validData = data where validData.length > 0 else {
+                if let response = response where response.statusCode >= 200 && response.statusCode < 300 { return .Success(NSNull()) }
+                
                 let failureReason = "JSON could not be serialized. Input data was nil or zero length."
                 let error = Error.errorWithCode(.JSONSerializationFailed, failureReason: failureReason)
                 return .Failure(error)
@@ -337,6 +343,8 @@ extension Request {
             if let response = response where response.statusCode == 204 { return .Success(NSNull()) }
 
             guard let validData = data where validData.length > 0 else {
+                if let response = response where response.statusCode >= 200 && response.statusCode < 300 { return .Success(NSNull()) }
+                
                 let failureReason = "Property list could not be serialized. Input data was nil or zero length."
                 let error = Error.errorWithCode(.PropertyListSerializationFailed, failureReason: failureReason)
                 return .Failure(error)
